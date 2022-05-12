@@ -79,7 +79,7 @@ w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:7545'))
 # @TODO:
 # From `crypto_wallet.py import the functions generate_account, get_balance,
 #  and send_transaction
-# YOUR CODE HERE
+from crypto_wallet import generate_account, get_balance, send_transaction
 
 ################################################################################
 # Fintech Finder Candidate Information
@@ -87,15 +87,14 @@ w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:7545'))
 # Database of Fintech Finder candidates including their name, digital address, rating and hourly cost per Ether.
 # A single Ether is currently valued at $1,500
 candidate_database = {
-    "Lane": ["Lane", "0xaC8eB8B2ed5C4a0fC41a84Ee4950F417f67029F0", "4.3", .20, "Images/lane.jpeg"],
-    "Ash": ["Ash", "0x2422858F9C4480c2724A309D58Ffd7Ac8bF65396", "5.0", .33, "Images/ash.jpeg"],
-    "Jo": ["Jo", "0x8fD00f170FDf3772C5ebdCD90bF257316c69BA45", "4.7", .19, "Images/jo.jpeg"],
-    "Kendall": ["Kendall", "0x8fD00f170FDf3772C5ebdCD90bF257316c69BA45", "4.1", .16, "Images/kendall.jpeg"]
+    "Charbel": ["Charbel", "0x97D122c496188996877FA84Abe569E1F3687089C", "4.1", .16, "Images/charbel.jpg"],
+    "Lane": ["Lane", "0x58068bbd6Dc2BDf065974A7c55274900a83d1989", "4.3", .20, "Images/lane.jpeg"],
+    "Ash": ["Ash", "0x0649B24EE990A0d538A8F65dD76789D931D2438A", "5.0", .33, "Images/ash.jpeg"],
+    "Jo": ["Jo", "0x066F8d0A043ac88cB1A65484c71A0103Cc18EC93", "4.7", .19, "Images/jo.jpeg"],
 }
 
 # A list of the FinTech Finder candidates first names
-people = ["Lane", "Ash", "Jo", "Kendall"]
-
+people = ["Charbel","Lane", "Ash", "Jo"]
 
 def get_people():
     """Display the database of Fintech Finders candidate information."""
@@ -130,12 +129,13 @@ st.sidebar.markdown("## Client Account Address and Ethernet Balance in Ether")
 
 # @TODO:
 #  Call the `generate_account` function and save it as the variable `account`
-# YOUR CODE HERE
+account = generate_account()
 
 ##########################################
 
 # Write the client's Ethereum account address to the sidebar
-st.sidebar.write(account.address)
+st.sidebar.markdown("#### Ethereum Wallet Address:")
+st.sidebar.write(account)
 
 ##########################################
 # Step 1 - Part 5:
@@ -146,20 +146,38 @@ st.sidebar.write(account.address)
 # @TODO
 # Call `get_balance` function and pass it your account address
 # Write the returned ether balance to the sidebar
-# YOUR CODE HERE
+#  Call the `get_balance` function and save it as the variable `ether`
+ether = get_balance(w3, account.address)
+
+# Write the client's ether balance to the sidebar
+st.sidebar.markdown("#### Ether Balance:")
+st.sidebar.markdown(w3, ether)
 
 ##########################################
 
 # Create a select box to chose a FinTech Hire candidate
 person = st.sidebar.selectbox('Select a Person', people)
 
+# Create a header using 'st.sidebar.markdown() to display the Fintech Professional's name and price
+st.sidebar.markdown("#### Name and Price") 
+
+# # Identify the client's selection by name 
+person = candidate_database[person][0]
+
+# Create variable called person_fee to retrieve price from the database
+person_fee = candidate_database[person][1] 
+
 # Create a input field to record the number of hours the candidate worked
 hours = st.sidebar.number_input("Number of Hours")
 
-st.sidebar.markdown("## Candidate Name, Hourly Rate, and Ethereum Address")
+st.sidebar.markdown("### Candidate Name, Hourly Rate, and Ethereum Address")
 
 # Identify the FinTech Hire candidate
 candidate = candidate_database[person][0]
+
+# Write the Fintech Finder candidate's name to the sidebar
+st.sidebar.markdown("#### Name")
+#st.sidebar.write(person)
 
 # Write the Fintech Finder candidate's name to the sidebar
 st.sidebar.write(candidate)
@@ -167,18 +185,15 @@ st.sidebar.write(candidate)
 # Identify the FinTech Finder candidate's hourly rate
 hourly_rate = candidate_database[person][3]
 
-# Write the inTech Finder candidate's hourly rate to the sidebar
+# Write the FinTech Finder candidate's hourly rate to the sidebar
 st.sidebar.write(hourly_rate)
 
 # Identify the FinTech Finder candidate's Ethereum Address
 candidate_address = candidate_database[person][1]
 
 # Write the inTech Finder candidate's Ethereum Address to the sidebar
+st.sidebar.markdown("#### Wallet Address:")
 st.sidebar.write(candidate_address)
-
-# Write the Fintech Finder candidate's name to the sidebar
-
-st.sidebar.markdown("## Total Wage in Ether")
 
 ################################################################################
 # Step 2: Sign and Execute a Payment Transaction
@@ -237,11 +252,22 @@ st.sidebar.markdown("## Total Wage in Ether")
 # Calculate total `wage` for the candidate by multiplying the candidate’s hourly
 # rate from the candidate database (`candidate_database[person][3]`) by the
 # value of the `hours` variable
-# YOUR CODE HERE
+person_fee = hours * hourly_rate
 
 # @TODO
 # Write the `wage` calculation to the Streamlit sidebar
-# YOUR CODE HERE
+st.sidebar.markdown("### Fee Estimate")
+st.sidebar.write(person_fee)
+
+# Use a conditional statement using the `if` keyword to check client's account balance
+if person_fee <= ether:
+    new_balance = float(ether) - float(person_fee)
+    st.sidebar.write("If you enter into a service agreement with", person, "for", person_fee, "eth, your account balance will be", new_balance, ".")
+    get_people()
+
+else:
+    st.sidebar.write("With a balance of", ether, "ether, you can't buy", person, "for", person_fee, "eth." )
+    get_people()
 
 ##########################################
 # Step 2 - Part 2:
@@ -261,19 +287,17 @@ st.sidebar.markdown("## Total Wage in Ether")
 # variable named `transaction_hash`, and have it display on the application’s
 # web interface.
 
-
 if st.sidebar.button("Send Transaction"):
 
-    # @TODO
+
+# @TODO
     # Call the `send_transaction` function and pass it 3 parameters:
     # Your `account`, the `candidate_address`, and the `wage` as parameters
     # Save the returned transaction hash as a variable named `transaction_hash`
-    # YOUR CODE HERE
+    transaction_hash = send_transaction(w3, account, candidate_address, person_fee)
 
     # Markdown for the transaction hash
     st.sidebar.markdown("#### Validated Transaction Hash")
-
-    # Write the returned transaction hash to the screen
     st.sidebar.write(transaction_hash)
 
     # Celebrate your successful payment

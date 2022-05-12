@@ -19,7 +19,6 @@ You work at a startup that is building a new and disruptive platform called Fint
 ## Step 1: Import Ethereum Transaction Functions into the Fintech Finder Application
 
 
-![image_01](https://user-images.githubusercontent.com/95597283/167980883-02b26c7e-1269-4a27-bb70-b0941b03ae4f.png)
 
 ```ruby
 candidate_database = {
@@ -28,14 +27,27 @@ candidate_database = {
     "Ash": ["Ash", "0xA2d16fD54a28e54272632491F7ff6D972966d9D2", "5.0", .33, "Images/ash.jpeg"],
     "Jo": ["Jo", "0x7c86061E24668fc2f2a66321AE60359253Ba8130", "4.7", .19, "Images/jo.jpeg"],
 }
-```
+
+# A list of the FinTech Finder candidates first names
+people = ["Charbel","Lane", "Ash", "Jo"]
+
+def get_people():
+    """Display the database of Fintech Finders candidate information."""
+    db_list = list(candidate_database.values())
+
+    for number in range(len(people)):
+        st.image(db_list[number][4], width=200)
+        st.write("Name: ", db_list[number][0])
+        st.write("Ethereum Account Address: ", db_list[number][1])
+        st.write("FinTech Finder Rating: ", db_list[number][2])
+        st.write("Hourly Rate per Ether: ", db_list[number][3], "eth")
+        st.text(" \n")
+``` 
+
 ## Step 2: Sign and Execute a Payment Transaction
 
-![image_02](https://user-images.githubusercontent.com/95597283/167980920-d824b26f-8989-4932-ae88-4dcd01b05b20.png)
 
-![image_03](https://user-images.githubusercontent.com/95597283/167980929-09090af5-3676-466d-b153-6f4a32f86697.png)
 
 ## Step 3: Inspect the Transaction
 
-![image_04](https://user-images.githubusercontent.com/95597283/167980972-31a7dbb1-55e8-4890-b84c-223e804ad8da.png)
 
