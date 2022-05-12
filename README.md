@@ -26,10 +26,14 @@ candidate_database = {
 
 ## Step 2: Sign and Execute a Payment Transaction
 
-![image_02](https://user-images.githubusercontent.com/95597283/167981672-0ca90645-134d-4652-b021-156ced30dc1c.png)
+![image_07](https://user-images.githubusercontent.com/95597283/167984338-aa89bb8c-5a96-41d6-a5da-80751c7f90cb.png)
 
-![image_04](https://user-images.githubusercontent.com/95597283/167981817-af1b8857-3111-414d-b0ed-8098f38fae96.png)
+
+![image_08](https://user-images.githubusercontent.com/95597283/167984373-4bbc03ac-2d74-40db-ac40-49bc381deaed.png)
+
+
+![image_10](https://user-images.githubusercontent.com/95597283/167984417-a12c4cd5-e1f4-49ee-ae78-b2a100162574.png)
 
 ## Step 3: Inspect the Transaction
 
-![image_03](https://user-images.githubusercontent.com/95597283/167981680-5b7de34d-0fc4-4f38-a8c3-45d5e3344d05.png)
+![image_09](https://user-images.githubusercontent.com/95597283/167984393-06590063-ad42-4a26-a74e-546050cc7756.png)
